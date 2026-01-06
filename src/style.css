@@ -1,0 +1,41 @@
+body{
+  margin: 0;
+  padding: 0;
+  font-family: "Archivo", sans-serif;
+}
+*{
+    box-sizing: border-box;
+}
+:root{
+  --background-color: #EFF3EA;
+  --white-color: #FFFDF0;
+  --text-color-black: #45474B;
+  --text-color-white:#FFFDF0;
+  --button-background: #F45050;
+}
+
+.button-design{
+  padding: 0.5rem 2rem;
+  border-radius: 0.2rem;
+  background-color: var(--button-background);
+  color: var(--text-color-white);
+  cursor: pointer;
+  border: none;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.quick-search-button{
+  padding: 1rem 2rem;
+  background-color: var(--button-background);
+  color: var(--text-color-white);
+  border-radius: 0.2rem;
+  cursor: pointer;
+  border: none;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+@media(max-width:700px){
+  html{
+    font-size: 12px;
+  }
+}
