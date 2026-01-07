@@ -1,14 +1,19 @@
 <script setup lang="ts">
+import {ref} from 'vue'; 
 import RightContainer from './components/RightContainer.vue';
 import SearchContainer from './components/SearchContainer.vue';
 
-
+const fetchedLatLngData = ref<{lat: number, lng: number, name: string} | null>(null);
+const handleLatLngReturn = (latLngValue:{lat: number, lng: number, name: string}):void =>{
+  fetchedLatLngData.value = latLngValue;
+}
 </script>
+
 <template>
   <div class="center-everything">
     <div class="main-container">
-      <SearchContainer/>
-      <RightContainer/>
+      <SearchContainer @return-lat-lng="handleLatLngReturn"/>
+      <RightContainer :fetchedLatLngData/>
     </div>
   </div>
 </template>

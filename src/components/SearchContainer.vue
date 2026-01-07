@@ -1,16 +1,80 @@
 <script setup lang="ts">
+
+  import {computed, ref} from 'vue';
+  const location = ref<string>('');
+  const apiKey = import.meta.env.VITE_GEOCODING_API;
+
+  interface geolocatorApiResponse{
+    country: string,
+    lat: number, 
+    lon: number,
+    name: string,
+    local_names: Record<string, string>
+  }
+
+  interface emitType {
+    lat: number
+    lng: number
+    name: string
+  }
+  const latLngData = ref<emitType | null>(null);
+  
+  const emit = defineEmits<{
+    (e: 'return-lat-lng', latLngData: emitType):void ;
+  }>()
+
+  const regexCheck = /^[A-Za-z\s]*$/; //only english characters allowed
+  //user Input Check block
+   const isInputValid = computed<boolean>(()=>{
+    return regexCheck.test(location.value);
+   })
+ 
+  //api call to fetch location - Geolocator Api Call
+  async function fetchLatLng(): Promise<geolocatorApiResponse | null> {
+        try{
+          let response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location.value}&limit=1&appid=${apiKey}`);
+          if(!response.ok) throw new Error('Unable to fetch data from the server');
+          const data: Array<geolocatorApiResponse> = await response.json();
+          // handleing no data cases
+          if(data.length == 0){
+            console.warn('No data found for such location');
+            return null;
+          }
+          return data[0];
+        }
+        catch(err){
+          alert(err);
+          console.error('Error Fetching lat and lng data:', err);
+          return null;
+        }
+    }
+
+  const handleSubmit = async () =>{
+    if(!isInputValid.value) return;
+    //actual APi call to geocoding api
+    const fetchedData:geolocatorApiResponse | null = await fetchLatLng();
+    if(!fetchedData) return;
+    latLngData.value = {
+      lat: fetchedData.lat,
+      lng: fetchedData.lon,
+      name: fetchedData.name
+    }
+    emit('return-lat-lng', latLngData.value);
+  }
+  
 </script>
 
 <template>
     <div class="left-image">
         <h1>Weather <br> Now</h1>
         <div class="search-container">
-          <form>
+          <form @submit.prevent="handleSubmit">
             <label for="search-text"></label><br>
             <div class="search-bar">
-              <input type="text" placeholder="Enter Location" id="search-text" aria-label="Location Input">
+              <input required v-model="location" type="text" placeholder="Enter Location" id="search-text" aria-label="Location Input">
               <button type="submit" class="button-design">Search</button>
             </div>
+            <p v-show="!isInputValid">no numbers and special characters allowed</p>
           </form>
           <div class="quick-search">
             <p>Select a location for quick search</p>
@@ -97,8 +161,13 @@
   color: var(--text-color-white);
 }
 
+form p {
+  color: rgb(249, 41, 41);
+  padding: 0 3rem;
+}
+
 .quick-search{
-  padding: 4rem 0;
+  padding: 2rem 0;
 }
 .quick-search p{
   color: var(--text-color-white);

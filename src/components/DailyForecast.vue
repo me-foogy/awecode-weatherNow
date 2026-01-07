@@ -1,12 +1,40 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
+
+   interface forecastDataType{
+      main: Record<string, string>,
+      weather: Array<Record<string, string>>
+      dt_txt: string
+   }
+
+   interface displayDataType{
+      temp: number,
+      weather: string,
+      date: string
+   }
+
+    const props = defineProps<{
+      forecast: forecastDataType
+   }>()
+
+    const toCelsius = (kelvin:number):number => {
+      return parseFloat((kelvin-273.1).toFixed(2));
+   }
+
+   const forecastData ={
+      temp: props.forecast.main.temp,
+      weather:  props.forecast.weather[0]?.main,
+      date: props.forecast.dt_txt.slice(0,10)
+   }
 
 </script>
 
 <template>
     <div class="each-forecast">
-        <h2>33°</h2>
-        <P class="weather-info">Sunny</P>
-        <p>2026-1-3</p>
+        <h2>{{toCelsius(forecastData.temp)}}°</h2>
+        <P class="weather-info">{{forecastData.weather}}</P>
+        <p>{{forecastData.date}}</p>
     </div>
 </template>
 
@@ -23,7 +51,7 @@
  }
  .each-forecast h2{
     margin: 0.1rem 0;
-    font-size: 3rem;
+    font-size: 2rem;
  }
 
  .each-forecast p{
