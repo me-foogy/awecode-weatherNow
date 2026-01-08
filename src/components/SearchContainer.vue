@@ -202,7 +202,7 @@ form p {
   align-items: center;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 900px) {
   .left-image {
     width: 100%;
     padding: 1.5rem;
@@ -210,7 +210,7 @@ form p {
   }
 
   .left-image h1 {
-    font-size: 4rem;
+    font-size: 6rem;
     margin: 0.5rem 0;
     text-align: center;
   }
@@ -224,6 +224,7 @@ form p {
 
    .search-bar input, .search-bar button {
     width: 100%;
+    margin: 1rem 0;
   }
 
   .search-bar input{
@@ -231,7 +232,7 @@ form p {
   }
 
   .quick-search {
-    padding: 2rem 0;
+    padding: 5rem 0;
   }
 
   .quick-search span {
@@ -240,7 +241,7 @@ form p {
   }
 
   .quick-search p {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 }
 

@@ -24,6 +24,7 @@
             date: 'no data'
         })
     const forecastDays = ref([]);
+    const forecastSlots: number =3;
 
    const toCelsius = (kelvin:number):number => {
       return parseFloat((kelvin-273.1).toFixed(2));
@@ -47,7 +48,7 @@
          pressure: data.main.pressure,
          humidity: data.main.humidity,
          weather: data.weather[0].main,
-         date: new Date().toLocaleDateString()
+         date: new Date().toISOString().slice(0,10)
       }
 
       //forecase APi call
@@ -88,7 +89,7 @@
         </div>
         <h2>FORECAST</h2>
         <div class="daily-forecast">
-            <DailyForecast v-for="day in forecastDays" :forecast="day"/>
+            <DailyForecast v-for="index in forecastSlots" :key="index" :forecast="forecastDays[index-1]??null"/>
         </div>
         
     </div>
@@ -161,7 +162,7 @@
     gap: 1rem;
  }
 
-@media (max-width: 1200px) {
+@media (max-width: 900px) {
   .right-container {
     width: 100%;
     padding: 1rem;

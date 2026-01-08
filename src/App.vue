@@ -38,7 +38,7 @@ const handleLatLngReturn = (latLngValue:{lat: number, lng: number, name: string}
   gap: 1rem;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 900px) {
   .center-everything{
     height: auto;
     padding-top: 2rem;

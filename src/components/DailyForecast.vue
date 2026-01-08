@@ -3,38 +3,46 @@ import { computed } from 'vue';
 
 
    interface forecastDataType{
-      main: Record<string, string>,
+      main: {
+         temp: number
+      },
       weather: Array<Record<string, string>>
       dt_txt: string
    }
 
    interface displayDataType{
       temp: number,
-      weather: string,
+      weather: string | undefined,
       date: string
    }
 
     const props = defineProps<{
-      forecast: forecastDataType
+      forecast: forecastDataType | null;
    }>()
 
     const toCelsius = (kelvin:number):number => {
       return parseFloat((kelvin-273.1).toFixed(2));
    }
-
-   const forecastData ={
-      temp: props.forecast.main.temp,
-      weather:  props.forecast.weather[0]?.main,
-      date: props.forecast.dt_txt.slice(0,10)
-   }
+   
+   const forecastData =computed<displayDataType|null>(()=>{
+      if(!props.forecast) return null
+      return{
+         temp: props.forecast.main.temp,
+         weather:  props.forecast.weather[0]?.main,
+         date: props.forecast.dt_txt.slice(0,10)
+      }
+   })
 
 </script>
 
 <template>
     <div class="each-forecast">
-        <h2>{{toCelsius(forecastData.temp)}}°</h2>
-        <P class="weather-info">{{forecastData.weather}}</P>
-        <p>{{forecastData.date}}</p>
+         <p v-if="!forecastData" class="placeholderText">Enter a location</p>
+        <template v-else>
+           <h2>{{toCelsius(forecastData.temp)}}°</h2>
+           <P class="weather-info">{{forecastData.weather}}</P>
+           <p>{{forecastData.date}}</p>
+        </template>
     </div>
 </template>
 
@@ -48,6 +56,10 @@ import { computed } from 'vue';
     justify-content: center;
     align-items: flex-start;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+ }
+
+ .placeholderText{
+   padding: 2.5rem 0;
  }
  .each-forecast h2{
     margin: 0.1rem 0;
