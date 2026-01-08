@@ -32,7 +32,7 @@
   //api call to fetch location - Geolocator Api Call
   async function fetchLatLng(): Promise<geolocatorApiResponse | null> {
         try{
-          let response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location.value}&limit=1&appid=${apiKey}`);
+          let response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${location.value}&limit=1&appid=${apiKey}`);
           if(!response.ok) throw new Error('Unable to fetch data from the server');
           const data: Array<geolocatorApiResponse> = await response.json();
           // handleing no data cases
