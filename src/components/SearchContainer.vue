@@ -37,9 +37,11 @@
           const data: Array<geolocatorApiResponse> = await response.json();
           // handleing no data cases
           if(data.length == 0){
+            alert('No data found for such location');
             console.warn('No data found for such location');
             return null;
           }
+          if(!data[0]) return null;
           return data[0];
         }
         catch(err){
@@ -61,6 +63,24 @@
     }
     emit('return-lat-lng', latLngData.value);
   }
+
+  const searchKathmandu = () =>{
+    latLngData.value = {
+      lat: 27.71,
+      lng: 85.32,
+      name: 'kathmandu'
+    }
+    emit('return-lat-lng', latLngData.value);
+  }
+
+  const searchPokhara = () =>{
+    latLngData.value = {
+      lat: 28.20,
+      lng: 83.98,
+      name: 'pokhara'
+    }
+    emit('return-lat-lng', latLngData.value);
+  }
   
 </script>
 
@@ -79,8 +99,8 @@
           <div class="quick-search">
             <p>Select a location for quick search</p>
             <span>
-              <button class="quick-search-button">Kathmandu</button>
-              <button class="quick-search-button">Pokhara</button>
+              <button class="quick-search-button" @click="searchKathmandu">Kathmandu</button>
+              <button class="quick-search-button" @click="searchPokhara">Pokhara</button>
             </span>
           </div>
         </div>
