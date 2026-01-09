@@ -3,6 +3,8 @@
   import {computed, ref} from 'vue';
   const location = ref<string>('');
   const apiKey = import.meta.env.VITE_GEOCODING_API;
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
 
   interface geolocatorApiResponse{
     country: string,
@@ -61,6 +63,14 @@
       lng: fetchedData.lon,
       name: fetchedData.name
     }
+    router.push({
+      name: 'home',
+      query: {
+        lat: latLngData.value.lat,
+        lng: latLngData.value.lng,
+        name: latLngData.value.name
+      }
+     })
     emit('return-lat-lng', latLngData.value);
   }
 
@@ -70,6 +80,14 @@
       lng: 85.32,
       name: 'kathmandu'
     }
+    router.push({
+      name: 'home',
+      query: {
+        lat: latLngData.value.lat,
+        lng: latLngData.value.lng,
+        name: latLngData.value.name
+      }
+     })
     emit('return-lat-lng', latLngData.value);
   }
 
@@ -79,6 +97,14 @@
       lng: 83.98,
       name: 'pokhara'
     }
+    router.push({
+      name: 'home',
+      query: {
+        lat: latLngData.value.lat,
+        lng: latLngData.value.lng,
+        name: latLngData.value.name
+      }
+     })
     emit('return-lat-lng', latLngData.value);
   }
   
