@@ -1,10 +1,11 @@
 <script setup lang="ts">
 
-  import {computed, ref, watch} from 'vue';
+  import {computed, onMounted, ref, watch} from 'vue';
   const location = ref<string>('');
   const apiKey = import.meta.env.VITE_GEOCODING_API;
-  import { useRouter } from 'vue-router'
-  const router = useRouter()
+  import { useRouter, useRoute } from 'vue-router'
+  const router = useRouter();
+  const route = useRoute();
 
   interface geolocatorApiResponse{
     country: string,
@@ -30,7 +31,30 @@
    const isInputValid = computed<boolean>(()=>{
     return regexCheck.test(location.value);
    })
- 
+  
+   watch( () => route.query.name, async (newName) => {
+        if (!newName) return;
+        location.value = String(newName);
+
+        if(!isInputValid.value){
+          router.push({
+            name: 'home'
+          })
+          return
+        }
+
+        const fetchedData = await fetchLatLng();
+        if (!fetchedData) return;
+        latLngData.value = {
+          lat: fetchedData.lat,
+          lng: fetchedData.lon,
+          name: fetchedData.name
+        };
+        emit('return-lat-lng', latLngData.value);
+      },
+    { immediate: true }
+  );
+
   //api call to fetch location - Geolocator Api Call
   async function fetchLatLng(): Promise<geolocatorApiResponse | null> {
         try{
@@ -66,9 +90,9 @@
     router.push({
       name: 'home',
       query: {
-        name: latLngData.value.name
+        name: fetchedData.name
       }
-     })
+    })
     emit('return-lat-lng', latLngData.value);
   }
 
@@ -81,9 +105,9 @@
     router.push({
       name: 'home',
       query: {
-        name: latLngData.value.name
+        name: 'kathmandu'
       }
-     })
+    })
     emit('return-lat-lng', latLngData.value);
   }
 
@@ -96,9 +120,9 @@
     router.push({
       name: 'home',
       query: {
-        name: latLngData.value.name
+        name: 'pokhara'
       }
-     })
+    })
     emit('return-lat-lng', latLngData.value);
   }
   
