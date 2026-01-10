@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-  import {computed, onMounted, ref, watch} from 'vue';
+  import {computed, ref, watch} from 'vue';
   const location = ref<string>('');
   const apiKey = import.meta.env.VITE_GEOCODING_API;
   import { useRouter, useRoute } from 'vue-router'

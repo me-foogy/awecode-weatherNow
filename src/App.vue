@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import {ref, onMounted, watch} from 'vue'; 
-import { useRoute } from 'vue-router'
+import {ref} from 'vue';
 import RightContainer from './components/RightContainer.vue';
 import SearchContainer from './components/SearchContainer.vue';
-
-const route = useRoute()
 
 const fetchedLatLngData = ref<{lat:number, lng: number, name: string}|null>(null);
 const handleLatLngReturn = (latLngValue:{lat: number, lng: number, name: string}):void =>{
