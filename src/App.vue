@@ -6,35 +6,10 @@ import SearchContainer from './components/SearchContainer.vue';
 
 const route = useRoute()
 
-const fetchedLatLngData = ref<{lat: number, lng: number, name: string} | null>(null);
+const fetchedLatLngData = ref<{lat:number, lng: number, name: string}|null>(null);
 const handleLatLngReturn = (latLngValue:{lat: number, lng: number, name: string}):void =>{
   fetchedLatLngData.value = latLngValue;
 }
-
-onMounted(() => {
-  const { lat, lng, name } = route.query
-
-  if (lat && lng && name) {
-    fetchedLatLngData.value = {
-      lat: Number(lat),
-      lng: Number(lng),
-      name: String(name)
-    }
-  }
-})
-
-watch(
-  () => route.query,
-  (query) => {
-    if (query.lat && query.lng && query.name) {
-      fetchedLatLngData.value = {
-        lat: Number(query.lat),
-        lng: Number(query.lng),
-        name: String(query.name)
-      }
-    }
-  }
-)
 
 </script>
 

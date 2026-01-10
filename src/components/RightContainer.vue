@@ -9,7 +9,7 @@
       name:string
     }
     const props=defineProps<{
-      fetchedLatLngData: latLngDataType| null;
+      fetchedLatLngData: latLngDataType | null;
     }>()
 
     const state = ref<'waiting'|'loading'|'fetched'>('waiting');

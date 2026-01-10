@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-  import {computed, ref} from 'vue';
+  import {computed, ref, watch} from 'vue';
   const location = ref<string>('');
   const apiKey = import.meta.env.VITE_GEOCODING_API;
   import { useRouter } from 'vue-router'
@@ -66,8 +66,6 @@
     router.push({
       name: 'home',
       query: {
-        lat: latLngData.value.lat,
-        lng: latLngData.value.lng,
         name: latLngData.value.name
       }
      })
@@ -83,8 +81,6 @@
     router.push({
       name: 'home',
       query: {
-        lat: latLngData.value.lat,
-        lng: latLngData.value.lng,
         name: latLngData.value.name
       }
      })
@@ -100,8 +96,6 @@
     router.push({
       name: 'home',
       query: {
-        lat: latLngData.value.lat,
-        lng: latLngData.value.lng,
         name: latLngData.value.name
       }
      })
